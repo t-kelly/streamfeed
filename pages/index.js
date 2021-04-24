@@ -3,45 +3,99 @@ import Link from 'next/link'
 import Layout, { siteTitle } from '../components/layout'
 import Date from '../components/date'
 import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
+import { signIn, signOut, useSession, getSession } from 'next-auth/client'
+import {google} from 'googleapis'
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
+async function getLiveBroadcast(session) {
+  const youtube = google.youtube({
+    version: 'v3',
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+    },
+  });
+
+  const {data} = await youtube.liveBroadcasts.list({
+    part: 'snippet',
+    mine: true
+  });
+
+  return data.items[0];
+}
+
+async function getLiveChatMessages(session, liveBroadcast) {
+  const youtube = google.youtube({
+    version: 'v3',
+    headers: {
+      Authorization: `Bearer ${session.accessToken}`,
+    },
+  });
+
+  const {liveChatId} = liveBroadcast.snippet
+    const response = await youtube.liveChatMessages.list({
+      liveChatId,
+      part: 'snippet, authorDetails' 
+    })
+    return response.data.items.map(({ snippet, authorDetails }) => {
+      return {
+        displayName: authorDetails.displayName,
+        displayMessage: snippet.displayMessage
+      }
+    });
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) return {props: {}};
+
+  const liveBroadcast = await getLiveBroadcast(session);
+
+  if (!liveBroadcast) return {props: {}};
+
+  const messages = await getLiveChatMessages(session, liveBroadcast);
+
   return {
     props: {
-      allPostsData
+      liveBroadcast,
+      messages 
     }
   }
 }
 
-export default function Home({ allPostsData }) {
+export default function Home({ liveBroadcast, messages }) {
+  const [ session, loading ] = useSession();
+
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>[Your Self Introduction]</p>
-        <p>
-          (This is a sample website - you’ll be building a site like this on{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
-      </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
+        {!session && <>
+          Not signed in <br/>
+          <button onClick={() => signIn()}>Sign in</button>
+        </>}
+
+        {session && <>
+          Signed in as {session.user.email} <br/>
+          <button onClick={() => signOut()}>Sign out</button>
+
+          {liveBroadcast && <> 
+            <h1>Your Youtube Live stream is active!</h1>
+
+            <ul className={utilStyles.list}>
+              {messages.map(({ displayName, displayMessage }) => (
+                <li className={utilStyles.listItem}>
+                  <p>{displayName}: </p>
+                  <p>{displayMessage}</p>
+                </li>
+              ))}
+            </ul>
+          </>}
+          {!liveBroadcast && <> 
+            <h1>Your Youtube Live stream is NOT active!</h1>
+          </>}
+        </>}
       </section>
     </Layout>
   )
