@@ -2,7 +2,7 @@ import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 
 const GOOGLE_AUTHORIZATION_URL =
-  "https://accounts.google.com/o/oauth2/v3/auth?" +
+  "https://accounts.google.com/o/oauth2/v2/auth?" +
   new URLSearchParams({
     prompt: "consent",
     access_type: "offline",
