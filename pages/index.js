@@ -1,70 +1,73 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import Layout, { siteTitle } from '../components/layout'
-import Date from '../components/date'
+import React, { useEffect, useState } from 'react';
 import utilStyles from '../styles/utils.module.css'
 import { signIn, signOut, useSession, getSession } from 'next-auth/client'
-import {google} from 'googleapis'
+import {liveChatMessagesList, liveBroadcastList} from '../lib/google'
 
-async function getLiveBroadcast(session) {
-  const youtube = google.youtube({
-    version: 'v3',
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-  });
-
-  const {data} = await youtube.liveBroadcasts.list({
+export async function getLiveBroadcast(session) {
+  const response = await liveBroadcastList(session.accessToken, {
     part: 'snippet',
     mine: true
   });
 
-  return data.items[0];
+  const body = await response.json();
+  return body.items[0];
 }
 
-async function getLiveChatMessages(session, liveBroadcast) {
-  const youtube = google.youtube({
-    version: 'v3',
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-  });
-
+export async function getLiveChatMessages(session, {liveBroadcast, nextPageToken}) {
   const {liveChatId} = liveBroadcast.snippet
-    const response = await youtube.liveChatMessages.list({
-      liveChatId,
-      part: 'snippet, authorDetails' 
-    })
-    return response.data.items.map(({ snippet, authorDetails }) => {
-      return {
-        displayName: authorDetails.displayName,
-        displayMessage: snippet.displayMessage
-      }
-    });
+  const response = await liveChatMessagesList(session.accessToken, {
+    liveChatId,
+    part: 'snippet, authorDetails',
+    pageToken: nextPageToken 
+  })
+  return response.json();
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
+function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-  if (!session) return {props: {}};
+async function pollLiveChatMessages({session, liveBroadcast, nextPageToken = ''}, cb) {
+  const data = await getLiveChatMessages(session, {liveBroadcast, nextPageToken});
+
+  const newMessages = data.items.map((item) => {
+    return {
+      id: item.id,
+      displayName: item.authorDetails.displayName,
+      displayMessage: item.snippet.displayMessage
+    }
+  });
+  cb(newMessages);
+
+  await timeout(data.pollingIntervalMillis)
+  await pollLiveChatMessages({session, liveBroadcast, nextPageToken: data.nextPageToken}, cb);
+}
+
+async function startYoutubeChatFeed(messages, setMessages) {
+  youtubeStarted = true;
+  const session = await getSession();
+
+  debugger;
+
+  if (!session) return;
 
   const liveBroadcast = await getLiveBroadcast(session);
-
-  if (!liveBroadcast) return {props: {}};
-
-  const messages = await getLiveChatMessages(session, liveBroadcast);
-
-  return {
-    props: {
-      liveBroadcast,
-      messages 
-    }
-  }
+  await pollLiveChatMessages({session, liveBroadcast}, (newMessages) => {
+    messages = messages.concat(newMessages)
+    setMessages(messages);
+  })
 }
 
-export default function Home({ liveBroadcast, messages }) {
-  const [ session, loading ] = useSession();
+let youtubeStarted = false;
 
+export default function Home() {
+  const [ session, loading ] = useSession();
+  const [messages, setMessages] = useState([]);
+
+  if (session && !youtubeStarted) startYoutubeChatFeed(messages, setMessages);
+  
   return (
     <Layout home>
       <Head>
@@ -80,21 +83,14 @@ export default function Home({ liveBroadcast, messages }) {
           Signed in as {session.user.email} <br/>
           <button onClick={() => signOut()}>Sign out</button>
 
-          {liveBroadcast && <> 
-            <h1>Your Youtube Live stream is active!</h1>
-
-            <ul className={utilStyles.list}>
-              {messages.map(({ displayName, displayMessage }) => (
-                <li className={utilStyles.listItem}>
-                  <p>{displayName}: </p>
-                  <p>{displayMessage}</p>
-                </li>
-              ))}
-            </ul>
-          </>}
-          {!liveBroadcast && <> 
-            <h1>Your Youtube Live stream is NOT active!</h1>
-          </>}
+          <h1>StreamFeed</h1>
+          <ul className={utilStyles.list}>
+            {messages.map(({ displayName, displayMessage, id }) => (
+              <li className={utilStyles.listItem} key={id}>
+                <p><span>{displayName}: </span><span>{displayMessage}</span></p>
+              </li>
+            ))}
+          </ul>
         </>}
       </section>
     </Layout>
