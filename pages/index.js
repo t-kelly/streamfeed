@@ -41,7 +41,8 @@ async function pollLiveChatMessages({session, liveBroadcast, nextPageToken = ''}
   });
   cb(newMessages);
 
-  await timeout(data.pollingIntervalMillis)
+  // Using the pollingInternalMillis burns through API call limit, check at most every 5 seconds
+  await timeout(Math.max(5000, data.pollingIntervalMillis))
   await pollLiveChatMessages({session, liveBroadcast, nextPageToken: data.nextPageToken}, cb);
 }
 
@@ -62,8 +63,20 @@ async function startYoutubeChatFeed(messages, setMessages) {
 
 let youtubeStarted = false;
 
+
+function showMessage(id, messages) {
+  const message = messages.find((m) => m.id === id);
+  const currentMessage = JSON.parse(window.localStorage.getItem('streamfeed-live-message') || '{}');
+
+  if (currentMessage.id === id) {
+    window.localStorage.setItem('streamfeed-live-message', JSON.stringify('{}'));
+  } else {
+    window.localStorage.setItem('streamfeed-live-message', JSON.stringify(message));
+  }
+}
+
 export default function Home() {
-  const [ session, loading ] = useSession();
+  const [session, loading ] = useSession();
   const [messages, setMessages] = useState([]);
 
   if (session && !youtubeStarted) startYoutubeChatFeed(messages, setMessages);
@@ -86,7 +99,7 @@ export default function Home() {
           <h1>StreamFeed</h1>
           <ul className={utilStyles.list}>
             {messages.map(({ displayName, displayMessage, id }) => (
-              <li className={utilStyles.listItem} key={id}>
+              <li className={utilStyles.listItem} key={id} onClick={() => {showMessage(id, messages)}}>
                 <p><span>{displayName}: </span><span>{displayMessage}</span></p>
               </li>
             ))}

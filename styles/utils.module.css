@@ -45,8 +45,60 @@
 
 .listItem {
   margin: 0 0 1.25rem;
+  padding: 0 15px;
+  border: 1px black solid;
+  background-color: white;
+}
+
+.listItem:hover {
+  background-color: #eee;
 }
 
 .lightText {
   color: #666;
+}
+
+.obs-card {
+  padding: 5px 25px 15px 25px;
+  max-width: 1200px;
+}
+
+.obs-card__message {
+  margin-top: 35px;
+  font-size: 36px;
+}
+
+.obs-card__message span {
+  display: inline-block;
+  background-color: white;
+  padding: 15px 25px;
+}
+
+.obs-card__title {
+  font-size: 32px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.obs-card__title span {
+  padding: 15px 25px;
+  background-color: white;
+}
+
+.obs-card-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.obs-card-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.obs-card-exit {
+  opacity: 1;
+}
+.obs-card-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
 }
