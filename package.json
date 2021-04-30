@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:ngrok": "env-cmd -f .env.ngrok next dev",
     "build": "next build",
     "start": "next start"
   },
@@ -17,5 +18,8 @@
     "react-transition-group": "^4.4.1",
     "remark": "^13.0.0",
     "remark-html": "^13.0.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

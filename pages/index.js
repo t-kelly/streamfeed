@@ -32,25 +32,27 @@ function timeout(ms) {
 async function pollLiveChatMessages({session, liveBroadcast, nextPageToken = ''}, cb) {
   const data = await getLiveChatMessages(session, {liveBroadcast, nextPageToken});
 
-  const newMessages = data.items.map((item) => {
-    return {
-      id: item.id,
-      displayName: item.authorDetails.displayName,
-      displayMessage: item.snippet.displayMessage
-    }
-  });
-  cb(newMessages);
+  console.log(data);
+
+  if (data.items) {
+    const newMessages = data.items.map((item) => {
+      return {
+        id: item.id,
+        displayName: item.authorDetails.displayName,
+        displayMessage: item.snippet.displayMessage
+      }
+    });
+    cb(newMessages);
+  }
 
   // Using the pollingInternalMillis burns through API call limit, check at most every 5 seconds
   await timeout(Math.max(5000, data.pollingIntervalMillis))
-  await pollLiveChatMessages({session, liveBroadcast, nextPageToken: data.nextPageToken}, cb);
+  // await pollLiveChatMessages({session, liveBroadcast, nextPageToken: data.nextPageToken}, cb);
 }
 
 async function startYoutubeChatFeed(messages, setMessages) {
   youtubeStarted = true;
   const session = await getSession();
-
-  debugger;
 
   if (!session) return;
 
