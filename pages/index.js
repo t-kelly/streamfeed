@@ -1,14 +1,13 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
-import React, { useEffect, useState } from 'react';
-import utilStyles from '../styles/utils.module.css'
-import { signIn, signOut, useSession, getSession } from 'next-auth/client'
+import React, { useState, useEffect } from 'react';
+import { useSession, getSession, signIn } from 'next-auth/client'
 import {liveChatMessagesList, liveBroadcastList} from '../lib/google'
 
 export async function getLiveBroadcast(session) {
   const response = await liveBroadcastList(session.accessToken, {
     part: 'snippet',
-    mine: true
+    broadcastStatus: 'active'
   });
 
   const body = await response.json();
@@ -32,8 +31,6 @@ function timeout(ms) {
 async function pollLiveChatMessages({session, liveBroadcast, nextPageToken = ''}, cb) {
   const data = await getLiveChatMessages(session, {liveBroadcast, nextPageToken});
 
-  console.log(data);
-
   if (data.items) {
     const newMessages = data.items.map((item) => {
       return {
@@ -56,7 +53,7 @@ async function startYoutubeChatFeed(messages, setMessages) {
 
   if (!session) return;
 
-  const liveBroadcast = await getLiveBroadcast(session);
+  const liveBroadcast = await getLiveBroadcast(session, {broadcastStatus: 'active'});
   await pollLiveChatMessages({session, liveBroadcast}, (newMessages) => {
     messages = messages.concat(newMessages)
     setMessages(messages);
@@ -66,48 +63,50 @@ async function startYoutubeChatFeed(messages, setMessages) {
 let youtubeStarted = false;
 
 
-function showMessage(id, messages) {
-  const message = messages.find((m) => m.id === id);
-  const currentMessage = JSON.parse(window.localStorage.getItem('streamfeed-live-message') || '{}');
 
-  if (currentMessage.id === id) {
-    window.localStorage.setItem('streamfeed-live-message', JSON.stringify('{}'));
-  } else {
-    window.localStorage.setItem('streamfeed-live-message', JSON.stringify(message));
-  }
-}
 
 export default function Home() {
-  const [session, loading ] = useSession();
   const [messages, setMessages] = useState([]);
+  const [selectedMessage, selectMessage] = useState(null)
 
-  if (session && !youtubeStarted) startYoutubeChatFeed(messages, setMessages);
+  
+  useEffect(async () => {
+    const session = await getSession();
+    if (!session) signIn('google');
+    if (session && !youtubeStarted) startYoutubeChatFeed(messages, setMessages);
+  }, []);
+
+  function onSelectMessage(id) {
+    const message = messages.find((m) => m.id === id);
+  
+    if (selectedMessage === id) {
+      window.localStorage.setItem('streamfeed-live-message', JSON.stringify('{}'));
+      selectMessage(null);
+    } else {
+      window.localStorage.setItem('streamfeed-live-message', JSON.stringify(message));
+      selectMessage(id);
+    }
+  }
   
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <section className={utilStyles.headingMd}>
-        {!session && <>
-          Not signed in <br/>
-          <button onClick={() => signIn()}>Sign in</button>
-        </>}
-
-        {session && <>
-          Signed in as {session.user.email} <br/>
-          <button onClick={() => signOut()}>Sign out</button>
-
-          <h1>StreamFeed</h1>
-          <ul className={utilStyles.list}>
-            {messages.map(({ displayName, displayMessage, id }) => (
-              <li className={utilStyles.listItem} key={id} onClick={() => {showMessage(id, messages)}}>
-                <p><span>{displayName}: </span><span>{displayMessage}</span></p>
-              </li>
-            ))}
-          </ul>
-        </>}
-      </section>
+      <ul>
+        {messages.map(({ displayName, displayMessage, id }) => (
+          <li 
+            className={`p-6 mb-10 bg-gray-700 hover:bg-indigo-700 cursor-pointer ring-indigo-700 text-white rounded-lg text-xl ${selectedMessage === id ? 'ring-4' : ''}`}
+            key={id} 
+            onClick={() => {onSelectMessage(id)}}
+          >
+            <p>
+              <span className="font-extrabold">{displayName}: </span>
+              <span>{displayMessage}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
     </Layout>
   )
 }
