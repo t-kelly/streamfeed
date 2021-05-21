@@ -2,8 +2,7 @@ import Head from 'next/head'
 import Message from '../components/message'
 import { siteTitle } from '../components/layout'
 import React, { useEffect, useState } from 'react';
-import utilStyles from '../styles/utils.module.css'
-import { CSSTransition } from 'react-transition-group';
+import { Transition } from '@headlessui/react'
 
 export default function OBS() {
   const [message, setMessage] = useState({});
@@ -43,21 +42,25 @@ export default function OBS() {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <CSSTransition
-        in={showMessage && typeof message.id !== 'undefined'}
-        timeout={300}
-        appear={true}
-        classNames={{ 
-          enter: utilStyles["obs-card-enter"],
-          enterActive: utilStyles["obs-card-enter-active"],
-          exit: utilStyles["obs-card-exit"],
-          exitActive: utilStyles["obs-card-exit-active"],
-        }}
-        unmountOnExit
-        onExited={updateMessage}
-      >
-        <Message title={message.displayName} content={message.displayMessage}></Message>  
-      </CSSTransition>
+      <main className="relative" style={{width: `${1920}px`, height: `${1080}px`}}>
+        <Transition
+          show={showMessage && typeof message.id !== 'undefined'}
+          appear={true}
+          enter="transition transform opacity duration-150 origin-bottom-left"
+          enterFrom="opacity-0 scale-90"
+          enterTo="opacity-100"
+          leave="transition transform opacity duration-100 origin-bottom-left"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0 scale-90"
+          afterLeave={updateMessage}
+          className="absolute bottom-16 left-8 right-5"
+        >
+          <Message 
+            title={message.displayName} 
+            content={message.displayMessage}
+          ></Message>  
+        </Transition>
+      </main>
     </>
   )
 }
