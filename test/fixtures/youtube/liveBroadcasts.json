@@ -1,0 +1,51 @@
+{
+  "kind": "youtube#liveBroadcastListResponse",
+  "etag": "MZKxD1Tb8okY7Rk-BktTvJWe-Gc",
+  "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 5
+  },
+  "items": [
+      {
+          "kind": "youtube#liveBroadcast",
+          "etag": "uAvynXbYufOXiCedGJwRIi3s8mo",
+          "id": "Y5icTbr0bIk",
+          "snippet": {
+              "publishedAt": "2021-05-26T13:58:39Z",
+              "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+              "title": "Building StreamFeed w/ NextJS",
+              "description": "Create an web app that displays a content feed that is populated in real-time from pluggable sources (Stream Chat, Github Discussions, Twitter mentions) and allow a streamer to showcase a this content on their live stream with a simple click. Integrates with OBS through browser sources + custom browser docks. Inspired by Restream Studio + Streamyard's message highlight feature.",
+              "thumbnails": {
+                  "default": {
+                      "url": "https://i.ytimg.com/vi/Y5icTbr0bIk/default_live.jpg",
+                      "width": 120,
+                      "height": 90
+                  },
+                  "medium": {
+                      "url": "https://i.ytimg.com/vi/Y5icTbr0bIk/mqdefault_live.jpg",
+                      "width": 320,
+                      "height": 180
+                  },
+                  "high": {
+                      "url": "https://i.ytimg.com/vi/Y5icTbr0bIk/hqdefault_live.jpg",
+                      "width": 480,
+                      "height": 360
+                  },
+                  "standard": {
+                      "url": "https://i.ytimg.com/vi/Y5icTbr0bIk/sddefault_live.jpg",
+                      "width": 640,
+                      "height": 480
+                  },
+                  "maxres": {
+                      "url": "https://i.ytimg.com/vi/Y5icTbr0bIk/maxresdefault_live.jpg",
+                      "width": 1280,
+                      "height": 720
+                  }
+              },
+              "actualStartTime": "2021-05-26T13:59:24Z",
+              "isDefaultBroadcast": false,
+              "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs"
+          }
+      }
+  ]
+}

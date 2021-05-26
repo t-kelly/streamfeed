@@ -5,23 +5,21 @@ import { useSession, getSession, signIn } from 'next-auth/client'
 import {liveChatMessagesList, liveBroadcastList} from '../lib/google'
 
 export async function getLiveBroadcast(session) {
-  const response = await liveBroadcastList(session.accessToken, {
+  const payload = await liveBroadcastList(session.accessToken, {
     part: 'snippet',
     broadcastStatus: 'active'
   });
-
-  const body = await response.json();
-  return body.items[0];
+  debugger;
+  return payload.items[0];
 }
 
 export async function getLiveChatMessages(session, {liveBroadcast, nextPageToken}) {
   const {liveChatId} = liveBroadcast.snippet
-  const response = await liveChatMessagesList(session.accessToken, {
+  return liveChatMessagesList(session.accessToken, {
     liveChatId,
     part: 'snippet, authorDetails',
     pageToken: nextPageToken 
   })
-  return response.json();
 }
 
 function timeout(ms) {

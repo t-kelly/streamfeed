@@ -1,0 +1,194 @@
+{
+  "kind": "youtube#liveChatMessageListResponse",
+  "etag": "8TVAoXjucm3JVfj4PtJu0G-loLE",
+  "pollingIntervalMillis": 1002,
+  "pageInfo": {
+      "totalResults": 2,
+      "resultsPerPage": 2
+  },
+  "nextPageToken": "GJusxPLF5_ACIMfUp6XG5_AC",
+  "items": [
+      {
+          "kind": "youtube#liveChatMessage",
+          "etag": "6Z4BayEk8YuYSSkhFz_rnzLKy-o",
+          "id": "LCC.CikqJwoYVUNnV1pqcE1Qd2l4c2FDY1BkcEpDRXVnEgtZNWljVGJyMGJJaxI5ChpDUGJGdmZERjVfQUNGVVFFMWdBZEYwNEppZxIbQ0pmcXlOSEE1X0FDRlkyeXdRb2RXLTRFZEEw",
+          "snippet": {
+              "type": "textMessageEvent",
+              "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs",
+              "authorChannelId": "UCgWZjpMPwixsaCcPdpJCEug",
+              "publishedAt": "2021-05-26T14:22:07.074091+00:00",
+              "hasDisplayContent": true,
+              "displayMessage": "Hey! I was wondering if you could give an update about sections everywhere? When can we expect it be released? It would really help out with my current project!",
+              "textMessageDetails": {
+                  "messageText": "Hey! I was wondering if you could give an update about sections everywhere? When can we expect it be released? It would really help out with my current project!"
+              }
+          },
+          "authorDetails": {
+              "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+              "channelUrl": "http://www.youtube.com/channel/UCgWZjpMPwixsaCcPdpJCEug",
+              "displayName": "Kelly Vaughn",
+              "profileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhQwKPdmKQlZTneEnvcAi0zw3nuJgZFJwu1bo0I5g=s88-c-k-c0x00ffffff-no-rj",
+              "isVerified": false,
+              "isChatOwner": true,
+              "isChatSponsor": false,
+              "isChatModerator": false
+          }
+      },
+      {
+        "kind": "youtube#liveChatMessage",
+        "etag": "6Z4BayEk8YuYSSkhFz_rnzLKy-o",
+        "id": "LCC.CikqJwoYVUNnV1pqcE1Qd2l4c2FDY1BkcEpDRXVnEgtZNWljVGJyMGJJaxI5ChpDUGJGdmZERjVfQUNGVVFFMWdBZEYwNEppZxIbQ0pmcXlOSEdsadsaw",
+        "snippet": {
+            "type": "textMessageEvent",
+            "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs",
+            "authorChannelId": "UCgWZjpMPwixsaCcPdpJCEug",
+            "publishedAt": "2021-05-26T14:22:07.074091+00:00",
+            "hasDisplayContent": true,
+            "displayMessage": "While we were searching for sections everwhere, we discovered sections were there within us all along.",
+            "textMessageDetails": {
+                "messageText": "While we were searching for sections everwhere, we discovered sections were there within us all along."
+            }
+        },
+        "authorDetails": {
+            "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+            "channelUrl": "http://www.youtube.com/channel/UCgWZjpMPwixsaCcPdpJCEug",
+            "displayName": "Kinng",
+            "profileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhQwKPdmKQlZTneEnvcAi0zw3nuJgZFJwu1bo0I5g=s88-c-k-c0x00ffffff-no-rj",
+            "isVerified": false,
+            "isChatOwner": false,
+            "isChatSponsor": false,
+            "isChatModerator": false
+        }
+      },
+      {
+          "kind": "youtube#liveChatMessage",
+          "etag": "9_BeBghSVkncZnabZYfeNa6h_4A",
+          "id": "LCC.CikqJwoYVUNnV1pqcE1Qd2l4c2FDY1BkcEpDRXVnEgtZNWljVGJyMGJJaxI5ChpDT1dyeFBMRjVfQUNGVVFFMWdBZEYwNEppZxIbQ0pmasdsadasdsa",
+          "snippet": {
+              "type": "textMessageEvent",
+              "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs",
+              "authorChannelId": "UCgWZjpMPwixsaCcPdpJCEug",
+              "publishedAt": "2021-05-26T14:22:11.379739+00:00",
+              "hasDisplayContent": true,
+              "displayMessage": "Oh that's such a good question, Kelly! I've been waiting for Sections Everywhere for AGES. I really can't wait to see it launch",
+              "textMessageDetails": {
+                  "messageText": "Oh that's such a good question, Kelly! I've been waiting for Sections Everywhere for AGES. I really can't wait to see it launch"
+              }
+          },
+          "authorDetails": {
+              "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+              "channelUrl": "http://www.youtube.com/channel/UCgWZjpMPwixsaCcPdpJCEug",
+              "displayName": "Carson Shold",
+              "profileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhQwKPdmKQlZTneEnvcAi0zw3nuJgZFJwu1bo0I5g=s88-c-k-c0x00ffffff-no-rj",
+              "isVerified": false,
+              "isChatOwner": true,
+              "isChatSponsor": false,
+              "isChatModerator": false
+          }
+      },
+      {
+        "kind": "youtube#liveChatMessage",
+        "etag": "9_BeBghSVkncZnabZYfeNa6h_4A",
+        "id": "LCC.CikqJwoYVUNnV1pqcE1Qd2l4c2FDY1BkcEpDRXVnEgtZNWljVGJyMGJJaxI5ChpDT1dyeFBMRjVfasasadsadUNGVVFFMWdBZEYwNEppZxIbQ0pmcXlOSEE1X0FDRlkyeXdRb2RXLTRFZEEx",
+        "snippet": {
+            "type": "textMessageEvent",
+            "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs",
+            "authorChannelId": "UCgWZjpMPwixsaCcPdpJCEug",
+            "publishedAt": "2021-05-26T14:22:11.379739+00:00",
+            "hasDisplayContent": true,
+            "displayMessage": "What do you think is going to launch first, a Files API or Sections Everywhere?",
+            "textMessageDetails": {
+                "messageText": "What do you think is going to launch first, a Files API or Sections Everywhere?"
+            }
+        },
+        "authorDetails": {
+            "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+            "channelUrl": "http://www.youtube.com/channel/UCgWZjpMPwixsaCcPdpJCEug",
+            "displayName": "Kuipou",
+            "profileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhQwKPdmKQlZTneEnvcAi0zw3nuJgZFJwu1bo0I5g=s88-c-k-c0x00ffffff-no-rj",
+            "isVerified": false,
+            "isChatOwner": true,
+            "isChatSponsor": false,
+            "isChatModerator": false
+        }
+    },
+    {
+      "kind": "youtube#liveChatMessage",
+      "etag": "9_BeBghSVkncZnabZYfeNa6h_4A",
+      "id": "LCC.CikqJwoYVUNnV1pqcE1Qd2l4c2FDY1BkcEpsadsasadsadsahpDT1dyeFBMRjVfasasadsadUNGVVFFMWdBZEYwNEppZxIbQ0pmcXlOSEE1X0FDRlkyeXdRb2RXLTRFZEEx",
+      "snippet": {
+          "type": "textMessageEvent",
+          "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs",
+          "authorChannelId": "UCgWZjpMPwixsaCcPdpJCEug",
+          "publishedAt": "2021-05-26T14:22:11.379739+00:00",
+          "hasDisplayContent": true,
+          "displayMessage": "hahahahahaha",
+          "textMessageDetails": {
+              "messageText": "hahahahahaha"
+          }
+      },
+      "authorDetails": {
+          "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+          "channelUrl": "http://www.youtube.com/channel/UCgWZjpMPwixsaCcPdpJCEug",
+          "displayName": "Derpster",
+          "profileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhQwKPdmKQlZTneEnvcAi0zw3nuJgZFJwu1bo0I5g=s88-c-k-c0x00ffffff-no-rj",
+          "isVerified": false,
+          "isChatOwner": true,
+          "isChatSponsor": false,
+          "isChatModerator": false
+      }
+    },
+    {
+      "kind": "youtube#liveChatMessage",
+      "etag": "9_BeBghSVkncZnabZYfeNa6h_4A",
+      "id": "LCC.CikqJwoYVUNnV1pqcE1Qd2l4c2FDY1BkcEpsadsasadsadsdasadsdUNGVVFFMWdBZEYwNEppZxIbQ0pmcXlOSEE1X0FDRlkyeXdRb2RXLTRFZEEx",
+      "snippet": {
+          "type": "textMessageEvent",
+          "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs",
+          "authorChannelId": "UCgWZjpMPwixsaCcPdpJCEug",
+          "publishedAt": "2021-05-26T14:22:11.379739+00:00",
+          "hasDisplayContent": true,
+          "displayMessage": "shots fired!!",
+          "textMessageDetails": {
+              "messageText": "shots fired!!"
+          }
+      },
+      "authorDetails": {
+          "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+          "channelUrl": "http://www.youtube.com/channel/UCgWZjpMPwixsaCcPdpJCEug",
+          "displayName": "Chris",
+          "profileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhQwKPdmKQlZTneEnvcAi0zw3nuJgZFJwu1bo0I5g=s88-c-k-c0x00ffffff-no-rj",
+          "isVerified": false,
+          "isChatOwner": true,
+          "isChatSponsor": false,
+          "isChatModerator": false
+      }
+    },
+    {
+      "kind": "youtube#liveChatMessage",
+      "etag": "9_BeBghSVkncZnabZYfeNa6h_4A",
+      "id": "LCC.CikqJwoYVUNnV1pqcE1Qd2l4c2FDY1BsdsadsaVVFFMWdBZEYwNEppZxIbQ0pmcXlOSEE1X0FDRlkyeXdRb2RXLTRFZEEx",
+      "snippet": {
+          "type": "textMessageEvent",
+          "liveChatId": "KicKGFVDZ1daanBNUHdpeHNhQ2NQZHBKQ0V1ZxILWTVpY1RicjBiSWs",
+          "authorChannelId": "UCgWZjpMPwixsaCcPdpJCEug",
+          "publishedAt": "2021-05-26T14:22:11.379739+00:00",
+          "hasDisplayContent": true,
+          "displayMessage": "I've got an idea. How about, instead of sections everywhere, Shopify releases sections no-where. Remove all sections functionality from the home page! Simplicity is an art. Who knew we were so close to perfection for so long?",
+          "textMessageDetails": {
+              "messageText": "I've got an idea. How about, instead of sections everywhere, Shopify releases sections no-where. Remove all sections functionality from the home page! Simplicity is an art. Who knew we were so close to perfection for so long?"
+          }
+      },
+      "authorDetails": {
+          "channelId": "UCgWZjpMPwixsaCcPdpJCEug",
+          "channelUrl": "http://www.youtube.com/channel/UCgWZjpMPwixsaCcPdpJCEug",
+          "displayName": "Thomas Kelly",
+          "profileImageUrl": "https://yt3.ggpht.com/ytc/AAUvwnhQwKPdmKQlZTneEnvcAi0zw3nuJgZFJwu1bo0I5g=s88-c-k-c0x00ffffff-no-rj",
+          "isVerified": false,
+          "isChatOwner": true,
+          "isChatSponsor": false,
+          "isChatModerator": false
+      }
+    }
+  ]
+}
