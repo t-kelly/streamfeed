@@ -1,5 +1,4 @@
-import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
+const Providers = require('next-auth/providers').default
 
 const GOOGLE_AUTHORIZATION_URL =
   "https://accounts.google.com/o/oauth2/v2/auth?" +
@@ -54,7 +53,7 @@ const GOOGLE_AUTHORIZATION_URL =
   }
 }
 
-export default NextAuth({
+module.exports = {
   jwt: {
     secret: process.env.JWT_SECRET
   },
@@ -100,4 +99,4 @@ export default NextAuth({
       return session;
     }
   }
-})
+}

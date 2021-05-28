@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import React, { useState, useEffect } from 'react';
 import { useSession, getSession, signIn } from 'next-auth/client'
+import { io } from "socket.io-client"
 import {liveChatMessagesList, liveBroadcastList} from '../lib/google'
 
 export async function getLiveBroadcast(session) {
@@ -9,7 +10,6 @@ export async function getLiveBroadcast(session) {
     part: 'snippet',
     broadcastStatus: 'active'
   });
-  debugger;
   return payload.items[0];
 }
 
@@ -53,26 +53,59 @@ async function startYoutubeChatFeed(messages, setMessages) {
 
   const liveBroadcast = await getLiveBroadcast(session, {broadcastStatus: 'active'});
   await pollLiveChatMessages({session, liveBroadcast}, (newMessages) => {
-    messages = messages.concat(newMessages)
-    setMessages(messages);
+    setMessages(prevMessages => ([...prevMessages, ...newMessages]));
   })
 }
 
 let youtubeStarted = false;
 
+function useSocket(url) {
+  const [socket, setSocket] = useState(null)
+
+  useEffect(() => {
+    const socketIo = io(url)
+
+    setSocket(socketIo)
+
+    function cleanup() {
+      socketIo.disconnect()
+    }
+    return cleanup
+
+    // should only run once and not on every re-render,
+    // so pass an empty array
+  }, [])
+
+  return socket
+}
+
 
 
 
 export default function Home() {
-  const [messages, setMessages] = useState([]);
+  let [messages, setMessages] = useState([]);
   const [selectedMessage, selectMessage] = useState(null)
-
+  const socket = useSocket()
   
   useEffect(async () => {
     const session = await getSession();
-    if (!session) signIn('google');
+    // if (!session) signIn('google');
     if (session && !youtubeStarted) startYoutubeChatFeed(messages, setMessages);
   }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('github', handleGithubEvent)
+    }
+  }, [socket])
+
+  function handleGithubEvent(payload) {
+    setMessages(prevMessages => ([...prevMessages, {
+      id: payload.discussion.id,
+      displayName: payload.discussion.user.login,
+      displayMessage: payload.discussion.title
+    }]));
+  }
 
   function onSelectMessage(id) {
     const message = messages.find((m) => m.id === id);
