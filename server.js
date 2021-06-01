@@ -5,6 +5,7 @@ const express = require('express');
 const cookieParser = require("cookie-parser");
 const NextAuth = require("next-auth").default;
 const nextAuthOptions = require('./next-auth-options');
+const {listenForTweets} = require('./lib/twitter')
 
 
 const port = parseInt(process.env.PORT, 10) || 3000
@@ -16,6 +17,10 @@ nextApp.prepare().then(() => {
   const expressApp = express()
   const server = createServer(expressApp)
   const io = new Server(server);
+
+  listenForTweets((data) => {
+    io.sockets.emit('twitter', data)
+  })
 
   // NextAuth ExpressJS Integration https://github.com/nextauthjs/next-auth/issues/531
   expressApp.use(express.json());

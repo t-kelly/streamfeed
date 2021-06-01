@@ -79,10 +79,8 @@ function useSocket(url) {
   return socket
 }
 
-
-
-
 export default function Home() {
+  let messageEnd = null;
   let [messages, setMessages] = useState([]);
   const [selectedMessage, selectMessage] = useState(null)
   const socket = useSocket()
@@ -96,14 +94,27 @@ export default function Home() {
   useEffect(() => {
     if (socket) {
       socket.on('github', handleGithubEvent)
+      socket.on('twitter', handleTwitterEvent)
     }
   }, [socket])
+
+  useEffect(() => {
+    messageEnd.scrollIntoView({ behaviour: "smooth" });
+  });
 
   function handleGithubEvent(payload) {
     setMessages(prevMessages => ([...prevMessages, {
       id: payload.discussion.id,
       displayName: payload.discussion.user.login,
       displayMessage: payload.discussion.title
+    }]));
+  }
+
+  function handleTwitterEvent(payload) {
+    setMessages(prevMessages => ([...prevMessages, {
+      id: payload.data.id,
+      displayName: payload.includes.users[0].name,
+      displayMessage: payload.data.text
     }]));
   }
 
@@ -137,6 +148,7 @@ export default function Home() {
             </p>
           </li>
         ))}
+        <li ref={(element) => { messageEnd = element; }}></li>
       </ul>
     </Layout>
   )
